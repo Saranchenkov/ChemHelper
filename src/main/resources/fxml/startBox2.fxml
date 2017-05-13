@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="startVBox" alignment="CENTER" prefHeight="328.0" prefWidth="437.0" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.bsu.chemistry.sample.Main">
+   <children>
+      <ImageView fitHeight="285.0" fitWidth="436.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../pictures/BSU_logo.jpg" />
+         </image>
+         <viewport>
+            <Rectangle2D />
+         </viewport>
+      </ImageView>
+   </children>
+</VBox>

@@ -1,0 +1,22 @@
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
+
+<VBox fx:id="startVBox" prefHeight="328.0" prefWidth="437.0" BorderPane.alignment="CENTER" fx:controller="by.bsu.chemistry.sample.Main" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="31.0" prefWidth="436.0" text="Формула такая-то:" textAlignment="CENTER">
+            <font>
+                <Font name="Times New Roman" size="22.0" />
+            </font>
+        </Label>
+        <Region prefHeight="115.0" prefWidth="437.0" style="-fx-border-color: black;" />
+        <HBox prefHeight="100.0" prefWidth="200.0">
+            <children>
+                <Label prefHeight="91.0" prefWidth="132.0" style="-fx-alignment: center; -fx-border-color: black;" text="y = x2+2+x" HBox.hgrow="ALWAYS" />
+            </children>
+        </HBox>
+    </children>
+</VBox>

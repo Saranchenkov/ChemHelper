@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TreeItem?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.bsu.chemistry.sample.Controller">
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <left>
+      <VBox prefHeight="375.0" prefWidth="163.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label prefHeight="61.0" prefWidth="163.0" text="Выбрать формулу:">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets bottom="2.0" left="7.0" right="2.0" top="2.0" />
+               </padding>
+            </Label>
+            <TreeView fx:id="treeView" onMouseClicked="#changeVBox" prefHeight="344.0" prefWidth="146.0" VBox.vgrow="ALWAYS">
+                <TreeItem fx:id="root" expanded="true" value="Выберите формулу:">
+                    <children>
+                        <TreeItem fx:id="nuclearChemistryItem" value="Nuclear Chemistry">
+                            <children>
+                                <TreeItem fx:id="formula1" value="Formula #1" />
+                                <TreeItem fx:id="formula2" value="Formula #2" />
+                                <TreeItem fx:id="formula3" value="Formula #3" />
+                            </children>
+                        </TreeItem>
+                        <TreeItem fx:id="radiationChemistryItem" expanded="true" value="Radiation Chemistry" />
+                        <TreeItem fx:id="dosimetryItem" expanded="true" value="Dosimetry" />
+                    </children>
+                </TreeItem>
+            </TreeView>
+         </children>
+      </VBox>
+   </left>
+</BorderPane>
