@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -22,22 +23,12 @@ import java.util.Objects;
 /**
  * Created by Ivan on 11.05.2017.
  */
-
+@Component
 public class BoxUtils {
+
 
     @Autowired
     FormulaManager manager;
-
-    private final static BoxUtils OUR_INSTANCE = new BoxUtils();
-
-    public static BoxUtils getInstance() {
-        return OUR_INSTANCE;
-    }
-
-    private BoxUtils() {
-    }
-
-
 
     public BorderPane createBorderPane(){
         BorderPane borderPane = new BorderPane();
@@ -82,6 +73,7 @@ public class BoxUtils {
 
         TreeItem<String> root = new TreeItem<>("Выберите формулу:");
         root.setExpanded(true);
+        //Есть  возможность добавить  к TreeItem собственный eventHandler !
         TreeItem<String> nuclearChemistryItem = new TreeItem<>("Nuclear Chemistry");
         fillNuclearChemistryBranch(nuclearChemistryItem);
 
@@ -98,31 +90,39 @@ public class BoxUtils {
 
     private void changeVBox(String title) {
         try {
-            Objects.requireNonNull(manager);
-            Main.borderPane.setCenter(manager.getFormulaView(title));
-        } catch (ReflectiveOperationException e) {
-            e.printStackTrace();
-            VBox vBox = new VBox();
-            vBox.setPrefSize(437.0, 328.0);
-
-            Label label = new Label(title);
-            label.setPrefSize(600.0, 31.0);
-            label.setTextAlignment(TextAlignment.CENTER);
-            label.setFont(Font.font("Times New Roman", 60.0));
-            label.setAlignment(Pos.CENTER);
-            vBox.getChildren().add(label);
-            Main.borderPane.setCenter(vBox);
-            vBox.setAlignment(Pos.CENTER);
-            System.out.println(title);
+            Main.borderPane.setCenter(manager.getView(title));
+        } catch (ReflectiveOperationException | NullPointerException e) {
+            System.err.println(String.format("%s when %s was invoked!", e, title));
+            Main.borderPane.setCenter(getDefaultPane(title));
         }
     }
 
 
     private void fillNuclearChemistryBranch(TreeItem<String> mainBranch){
         mainBranch.getChildren().setAll(Arrays.asList(
-                new TreeItem<String>("Formula #1"),
-                new TreeItem<String>("WeizsaeckerFormula"),
-                new TreeItem<String>("Formula #3")));
+                new TreeItem<>("Formula #1"),
+                new TreeItem<>("WeizsaeckerFormula"),
+                new TreeItem<>("Formula #3")));
+    }
+
+    @Cacheable("Panes")
+    public Pane getDefaultPane(String title){
+
+        VBox vBox = new VBox();
+        vBox.setPrefSize(437.0, 328.0);
+        vBox.setAlignment(Pos.CENTER);
+
+
+        Label label = new Label(title);
+        label.setPrefSize(600.0, 31.0);
+        label.setTextAlignment(TextAlignment.CENTER);
+        label.setFont(Font.font("Times New Roman", 60.0));
+        label.setAlignment(Pos.CENTER);
+
+        vBox.getChildren().add(label);
+        System.out.println("getDefaultPane(" + title + ")  =   " + vBox);
+
+        return vBox;
     }
 }
 

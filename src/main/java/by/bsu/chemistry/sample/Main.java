@@ -19,7 +19,6 @@ public class Main extends Application {
     public void init() throws Exception {
         super.init();
         context = new AnnotationConfigApplicationContext(AppConfig.class);
-        System.out.println(context.getBean(FormulaManager.class));
     }
 
     @Override
@@ -32,11 +31,14 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        borderPane = BoxUtils.getInstance().createBorderPane();
-        borderPane.setLeft(BoxUtils.getInstance().getVBoxWithTreeView());
-        borderPane.setCenter(BoxUtils.getInstance().createStartCenterBox());
-        primaryStage.setTitle("ChemHelper 1.0");
+        BoxUtils util = context.getBean(BoxUtils.class);
+
+        borderPane = util.createBorderPane();
+        borderPane.setLeft(util.getVBoxWithTreeView());
+        borderPane.setCenter(util.createStartCenterBox());
+
         Scene scene = new Scene(borderPane);
+        primaryStage.setTitle("ChemHelper 1.0");
         primaryStage.setScene(scene);
         primaryStage.show();
     }

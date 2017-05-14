@@ -12,7 +12,7 @@ import java.util.Map;
  */
 
 @Component
-public class FormulaManager {
+public class FormulaManager implements Manager{
 
     private static Map<String, String> handlers = new HashMap<>();
 
@@ -25,7 +25,9 @@ public class FormulaManager {
         handlers.put("WeizsaeckerFormula", "by.bsu.chemistry.formulaBoxes.WeizsaeckerFormula");
     }
 
-    public Pane getFormulaView(String title) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    @Override
+    public Pane getView(String title) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         return ((Formula)Class.forName(handlers.get(title)).newInstance()).getView();
+
     }
 }

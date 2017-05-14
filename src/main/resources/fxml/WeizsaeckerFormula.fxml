@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" prefHeight="328.0" prefWidth="437.0" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.bsu.chemistry.formulaBoxes.Formula1Handler">
+<VBox alignment="TOP_CENTER" prefHeight="328.0" prefWidth="437.0" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.bsu.chemistry.formulaBoxes.WeizsaeckerFormula">
    <children>
       <Label alignment="CENTER" prefHeight="28.0" prefWidth="227.0" text="Weizsaecker Formula:">
          <VBox.margin>
@@ -28,7 +28,7 @@
       </Label>
       <ImageView fitHeight="109.0" fitWidth="501.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../pictures/Weizsaecker%20Formula.png" />
+            <Image url="@../pictures/WeizsaeckerFormula.png" />
          </image>
          <VBox.margin>
             <Insets bottom="10.0" />
@@ -52,7 +52,13 @@
                   <Font name="Times New Roman" size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="textField" text="0" GridPane.columnIndex="1" />
+            <TextField fx:id="massNumber" text="1" GridPane.columnIndex="1" />
+            <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="151.0" text="Z :" textAlignment="RIGHT" GridPane.rowIndex="1">
+               <font>
+                  <Font name="Times New Roman" size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="chargeNumber" prefHeight="25.0" prefWidth="209.0" text="1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label alignment="CENTER_RIGHT" prefHeight="49.0" prefWidth="151.0" text="Number of symbols after comma:" textAlignment="RIGHT" wrapText="true" GridPane.rowIndex="2">
                <font>
                   <Font name="Times New Roman" size="18.0" />
@@ -64,7 +70,7 @@
                   <Font name="Times New Roman" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="result" alignment="CENTER" prefHeight="52.0" prefWidth="139.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Label fx:id="result" prefHeight="29.0" prefWidth="338.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
                   <Font name="Times New Roman" size="18.0" />
                </font>
@@ -74,12 +80,6 @@
                   <Font name="Times New Roman" size="24.0" />
                </font>
             </Button>
-            <Label alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="151.0" text="Z :" textAlignment="RIGHT" GridPane.rowIndex="1">
-               <font>
-                  <Font name="Times New Roman" size="18.0" />
-               </font>
-            </Label>
-            <TextField fx:id="textField1" prefHeight="25.0" prefWidth="209.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
    </children>

@@ -1,5 +1,6 @@
 package by.bsu.chemistry.formulaBoxes;
 
+import by.bsu.chemistry.util.Helper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -44,25 +45,20 @@ public class Formula1Handler implements Formula{
     }
 
     @FXML
-    private void evaluate(){
+    @Override
+    public void evaluate() {
         System.out.println(textField.getText());
-        if (Pattern.matches("[-+]?[0-9]+(\\.?[0-9]+)?([eE][-+]?[0-9]+)?", textField.getText())) {
-            double x = Double.parseDouble(textField.getText());
+        if (Helper.checkDouble(textField)) {
+            double x = Helper.getDouble(textField);
             double y = new ExpressionBuilder("x^2 + x + 5")
                     .variables("x")
                     .build()
                     .setVariable("x", x)
                     .evaluate();
-            result.setText(String.valueOf(round(y, Integer.parseInt(numberOfSymbols.getText()))));
+            result.setText(Helper.getResult(y, numberOfSymbols));
         } else result.setText("invalid input");
-
     }
 
-    private static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
 
-        BigDecimal bd = new BigDecimal(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
-    }
+
 }

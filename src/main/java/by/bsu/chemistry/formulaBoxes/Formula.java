@@ -7,4 +7,5 @@ import javafx.scene.layout.VBox;
  */
 public interface Formula {
     VBox getView();
+    void evaluate();
 }
