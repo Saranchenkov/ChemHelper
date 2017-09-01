@@ -38,7 +38,8 @@ public class WeizsaeckerFormula implements Formula{
             root = new VBox();
             e.printStackTrace();
         }
-        return root;    }
+        return root;
+    }
 
     @Override
     @FXML

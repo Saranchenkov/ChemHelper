@@ -10,9 +10,6 @@ import javafx.scene.layout.VBox;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.regex.Pattern;
 
 /**
  * Created by Ivan on 12.05.2017.

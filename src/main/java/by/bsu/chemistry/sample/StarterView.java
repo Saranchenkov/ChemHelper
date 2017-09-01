@@ -1,8 +1,9 @@
-package by.bsu.chemistry.util;
+package by.bsu.chemistry.sample;
 
-import by.bsu.chemistry.sample.FormulaManager;
-import by.bsu.chemistry.sample.Main;
+import de.felixroske.jfxsupport.AbstractFxmlView;
+import de.felixroske.jfxsupport.FXMLView;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,25 +13,40 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * Created by Ivan on 11.05.2017.
+ * Created by Ivan on 01.09.2017.
  */
-@Component
-public class BoxUtils {
 
+@FXMLView
+public class StarterView extends AbstractFxmlView {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(StarterView.class);
 
     @Autowired
     FormulaManager manager;
 
-    public BorderPane createBorderPane(){
+    private BorderPane starterPane;
+
+    public StarterView() throws IOException {
+        starterPane = createBorderPane();
+        starterPane.setLeft(getVBoxWithTreeView());
+        starterPane.setCenter(createStartCenterBox());
+    }
+
+    @Override
+    public Parent getView() {
+        return starterPane;
+    }
+
+    private BorderPane createBorderPane(){
         BorderPane borderPane = new BorderPane();
         borderPane.setPrefSize(800, 400);
 
@@ -46,10 +62,11 @@ public class BoxUtils {
         MenuBar menuBar = new MenuBar(file, edit, help);
 
         borderPane.setTop(menuBar);
+        LOGGER.info("BorderPane was created!");
         return borderPane;
     }
 
-    public VBox createStartCenterBox() throws IOException {
+    private VBox createStartCenterBox() throws IOException {
         VBox startVBox = new VBox();
         startVBox.setPrefSize(640.0, 305.0);
 
@@ -58,10 +75,11 @@ public class BoxUtils {
 
         startVBox.getChildren().add(imageView);
         startVBox.setAlignment(Pos.CENTER);
+        LOGGER.info("Box with BSU_logo was created!");
         return startVBox;
     }
 
-    public Pane getVBoxWithTreeView(){
+    private Pane getVBoxWithTreeView(){
 
         TreeView<String> treeView = new TreeView<>();
         treeView.setPrefSize(146.0, 344.0);
@@ -84,16 +102,19 @@ public class BoxUtils {
         treeView.setRoot(root);
         VBox vBox = new VBox(treeView);
         vBox.setPrefSize(163.0, 375.0);
-        vBox.setVgrow(treeView, Priority.ALWAYS);
+        VBox.setVgrow(treeView, Priority.ALWAYS);
+        LOGGER.info("TreeView was created!");
         return vBox;
     }
 
     private void changeVBox(String title) {
         try {
-            Main.borderPane.setCenter(manager.getView(title));
-        } catch (ReflectiveOperationException | NullPointerException e) {
-            System.err.println(String.format("%s when %s was invoked!", e, title));
-            Main.borderPane.setCenter(getDefaultPane(title));
+            Pane pane = manager.getView(title);
+            if (Objects.isNull(pane)) pane = getDefaultPane(title);
+            (starterPane).setCenter(pane);
+            LOGGER.info("Move to new pane: {}", pane);
+        } catch (ReflectiveOperationException e) {
+            LOGGER.warn("Exception was thrown ", e);
         }
     }
 
@@ -105,8 +126,7 @@ public class BoxUtils {
                 new TreeItem<>("Formula #3")));
     }
 
-    @Cacheable("Panes")
-    public Pane getDefaultPane(String title){
+    private Pane getDefaultPane(String title){
 
         VBox vBox = new VBox();
         vBox.setPrefSize(437.0, 328.0);
@@ -120,9 +140,8 @@ public class BoxUtils {
         label.setAlignment(Pos.CENTER);
 
         vBox.getChildren().add(label);
-        System.out.println("getDefaultPane(" + title + ")  =   " + vBox);
+        LOGGER.info("Default pane({}) with title \"{}\" was setted", vBox, title);
 
         return vBox;
     }
 }
-

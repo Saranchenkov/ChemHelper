@@ -7,5 +7,5 @@ import javafx.scene.layout.Pane;
  */
 public interface Manager {
 
-    Pane getView(String title) throws ClassNotFoundException, IllegalAccessException, InstantiationException;
+    Pane getView(String title) throws IllegalAccessException, InstantiationException;
 }
