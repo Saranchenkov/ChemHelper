@@ -1,11 +1,9 @@
-package by.bsu.chemistry.sample;
+package by.bsu.chemistry.formula;
 
-import by.bsu.chemistry.formulaBoxes.Formula;
-import by.bsu.chemistry.formulaBoxes.Formula1Handler;
-import by.bsu.chemistry.formulaBoxes.WeizsaeckerFormula;
 import javafx.scene.layout.Pane;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +12,7 @@ import java.util.Map;
  */
 
 @Component
-public class FormulaManager implements Manager{
+public class FormulaManager implements Manager {
 
     private static Map<String, Class> handlers = new HashMap<>();
 
@@ -31,7 +29,7 @@ public class FormulaManager implements Manager{
     public Pane getView(String title) throws IllegalAccessException, InstantiationException {
         Pane pane;
         try {
-            pane = ((Formula)handlers.get(title).newInstance()).getView();
+            pane = ((FormulaHandler)handlers.get(title).newInstance()).getView();
             return pane;
         } catch (NullPointerException e){
             return null;

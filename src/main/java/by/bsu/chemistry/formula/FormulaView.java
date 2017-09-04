@@ -1,5 +1,6 @@
-package by.bsu.chemistry.sample;
+package by.bsu.chemistry.formula;
 
+import by.bsu.chemistry.View;
 import de.felixroske.jfxsupport.AbstractFxmlView;
 import de.felixroske.jfxsupport.FXMLView;
 import javafx.geometry.Pos;
@@ -16,6 +17,8 @@ import javafx.scene.text.TextAlignment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -26,53 +29,39 @@ import java.util.Objects;
  */
 
 @FXMLView
-public class StarterView extends AbstractFxmlView {
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class FormulaView implements View{
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(StarterView.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(FormulaView.class);
 
     @Autowired
     FormulaManager manager;
 
-    private BorderPane starterPane;
+    private BorderPane pane;
 
-    public StarterView() throws IOException {
-        starterPane = createBorderPane();
-        starterPane.setLeft(getVBoxWithTreeView());
-        starterPane.setCenter(createStartCenterBox());
+    public FormulaView() throws IOException {
+        pane = createBorderPane();
+        pane.setLeft(getVBoxWithTreeView());
+        pane.setCenter(createStartCenterBox());
     }
 
-    @Override
     public Parent getView() {
-        return starterPane;
+        return pane;
     }
 
     private BorderPane createBorderPane(){
         BorderPane borderPane = new BorderPane();
         borderPane.setPrefSize(800, 400);
-
-        Menu file = new Menu("File");
-        file.getItems().addAll(new MenuItem("new File"), new MenuItem("Open..."));
-
-        Menu edit = new Menu("Edit");
-        edit.getItems().addAll(new MenuItem("Options..."));
-
-        Menu help = new Menu("Help");
-        help.getItems().addAll(new MenuItem("About"));
-
-        MenuBar menuBar = new MenuBar(file, edit, help);
-
-        borderPane.setTop(menuBar);
         LOGGER.info("BorderPane was created!");
         return borderPane;
     }
 
     private VBox createStartCenterBox() throws IOException {
         VBox startVBox = new VBox();
-        startVBox.setPrefSize(640.0, 305.0);
-
         Image bsu_logo = new Image("/pictures/BSU_logo.jpg");
         ImageView imageView = new ImageView(bsu_logo);
 
+        startVBox.setPrefSize(imageView.getFitWidth(), imageView.getFitHeight());
         startVBox.getChildren().add(imageView);
         startVBox.setAlignment(Pos.CENTER);
         LOGGER.info("Box with BSU_logo was created!");
@@ -83,14 +72,15 @@ public class StarterView extends AbstractFxmlView {
 
         TreeView<String> treeView = new TreeView<>();
         treeView.setPrefSize(146.0, 344.0);
+        //теперь root невидимый!
         treeView.setShowRoot(false);
         treeView.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> changeVBox(newValue.getValue()));
 
-
-        TreeItem<String> root = new TreeItem<>("Выберите формулу:");
+        TreeItem<String> root = new TreeItem<>("Choose formula:");
         root.setExpanded(true);
+
         //Есть  возможность добавить  к TreeItem собственный eventHandler !
         TreeItem<String> nuclearChemistryItem = new TreeItem<>("Nuclear Chemistry");
         fillNuclearChemistryBranch(nuclearChemistryItem);
@@ -109,17 +99,17 @@ public class StarterView extends AbstractFxmlView {
 
     private void changeVBox(String title) {
         try {
-            Pane pane = manager.getView(title);
-            if (Objects.isNull(pane)) pane = getDefaultPane(title);
-            (starterPane).setCenter(pane);
+            Pane newVBox = manager.getView(title);
+            if (Objects.isNull(newVBox)) newVBox = getDefaultPane(title);
+            pane.setCenter(newVBox);
             LOGGER.info("Move to new pane: {}", pane);
         } catch (ReflectiveOperationException e) {
             LOGGER.warn("Exception was thrown ", e);
         }
     }
 
-
     private void fillNuclearChemistryBranch(TreeItem<String> mainBranch){
+        // TODO: 03.09.2017 Вытаскивать и наполнять из пропертей
         mainBranch.getChildren().setAll(Arrays.asList(
                 new TreeItem<>("Formula #1"),
                 new TreeItem<>("WeizsaeckerFormula"),
@@ -131,7 +121,6 @@ public class StarterView extends AbstractFxmlView {
         VBox vBox = new VBox();
         vBox.setPrefSize(437.0, 328.0);
         vBox.setAlignment(Pos.CENTER);
-
 
         Label label = new Label(title);
         label.setPrefSize(600.0, 31.0);

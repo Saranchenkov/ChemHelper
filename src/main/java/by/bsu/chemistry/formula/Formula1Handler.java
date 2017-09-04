@@ -1,6 +1,7 @@
-package by.bsu.chemistry.formulaBoxes;
+package by.bsu.chemistry.formula;
 
 import by.bsu.chemistry.util.Helper;
+import by.bsu.chemistry.util.ViewUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -10,11 +11,12 @@ import javafx.scene.layout.VBox;
 import net.objecthunter.exp4j.ExpressionBuilder;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Created by Ivan on 12.05.2017.
  */
-public class Formula1Handler implements Formula{
+public class Formula1Handler implements FormulaHandler {
 
     @FXML
     TextField textField;
@@ -28,17 +30,18 @@ public class Formula1Handler implements Formula{
     @FXML
     TextField numberOfSymbols;
 
+    private  VBox pane;
+
     @Override
     public VBox getView() {
-        VBox root;
-        try {
-            root = FXMLLoader.load(getClass().getResource("/fxml/formula1.fxml"));
-
-        } catch (IOException e) {
-            root = new VBox();
-            e.printStackTrace();
+        if (Objects.isNull(pane)) {
+            try {
+                pane = (VBox) ViewUtils.getPaneFromFXML(getClass(), "formula1.fxml");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        return root;
+        return pane;
     }
 
     @FXML
