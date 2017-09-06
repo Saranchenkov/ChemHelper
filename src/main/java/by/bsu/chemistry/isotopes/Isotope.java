@@ -379,6 +379,7 @@ public class Isotope {
                 .append("\n\n").toString();
     }
 
+    // TODO: 05.09.2017 Убрать всё это из модели
     private String getFullHalfLife(){
         if ("STABLE".equals(half_life)){
             return "Stable";

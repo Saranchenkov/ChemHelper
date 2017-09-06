@@ -1,6 +1,6 @@
 package by.bsu.chemistry;
 
-import by.bsu.chemistry.formula.FormulaView;
+import by.bsu.chemistry.formula.InitialFormulaView;
 import by.bsu.chemistry.isotopes.IsotopesView;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.fxml.FXML;
@@ -15,7 +15,7 @@ import java.io.IOException;
  * Created by Ivan on 02.09.2017.
  */
 @FXMLController
-public class InitialController {
+public class InitialController implements Controller{
 
     private final ConfigurableApplicationContext context;
 
@@ -26,12 +26,12 @@ public class InitialController {
 
     @FXML
     public void getFormulaStage() throws IOException {
-       showStage(FormulaView.class);
+       showStage(InitialFormulaView.class, 660);
     }
 
     @FXML
     public void getIsotopesStage() throws IOException {
-        showStage(IsotopesView.class);
+        showStage(IsotopesView.class, 590);
     }
 
     @FXML
@@ -54,9 +54,17 @@ public class InitialController {
 
     }
 
-    private <T extends View> void showStage(Class<T> viewClass) {
+    private <T extends View> void showStage(Class<T> viewClass, int width) {
         Stage stage = new Stage();
+        stage.setHeight(400);
+        stage.setWidth(width);
         stage.setScene(new Scene(context.getBean(viewClass).getView()));
+        stage.setResizable(false);
         stage.show();
+    }
+
+    @Override
+    public void setEvents() {
+        /*makes nothing yet*/
     }
 }

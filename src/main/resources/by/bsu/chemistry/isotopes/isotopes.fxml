@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Accordion maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.bsu.chemistry.isotopes.IsotopesController">
+<Accordion maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
   <panes>
     <TitledPane text="Find nuclides by symbol">
          <content>
@@ -27,7 +27,7 @@
                               <Insets top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField fx:id="bySymbol" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="200.0" promptText="For example: Cs or Ra">
+                        <TextField fx:id="tfBySymbol" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="200.0" promptText="For example: Cs or Ra">
                            <font>
                               <Font name="Times New Roman" size="18.0" />
                            </font>
@@ -35,7 +35,7 @@
                               <Insets top="5.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button mnemonicParsing="false" onAction="#findBySymbol" prefHeight="45.0" prefWidth="80.0" text="Search">
+                        <Button fx:id="btnBySymbol" mnemonicParsing="false" prefHeight="45.0" prefWidth="80.0" text="Search">
                            <font>
                               <Font name="Times New Roman" size="18.0" />
                            </font>
@@ -50,7 +50,7 @@
                         <Font name="Times New Roman" size="18.0" />
                      </font>
                   </Label>
-                  <ListView fx:id="resultBySymbol" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="334.0">
+                  <ListView fx:id="lvBySymbol" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="170.0" prefWidth="335.0">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -58,8 +58,11 @@
                </children>
             </VBox>
          </content>
+         <font>
+            <Font name="Times New Roman" size="18.0" />
+         </font>
     </TitledPane>
-    <TitledPane animated="false" text="Find nuclides by mass number (A)">
+    <TitledPane text="Find nuclides by mass number (A)">
          <content>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
@@ -73,7 +76,7 @@
                               <Insets top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="200.0" promptText="For example: 235 or 40">
+                        <TextField fx:id="tfByMassNumber" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="200.0" promptText="For example: 235 or 40">
                            <font>
                               <Font name="Times New Roman" size="18.0" />
                            </font>
@@ -81,7 +84,7 @@
                               <Insets top="5.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="45.0" prefWidth="80.0" text="Search">
+                        <Button fx:id="btnByMassNumber" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="45.0" prefWidth="80.0" text="Search">
                            <font>
                               <Font name="Times New Roman" size="18.0" />
                            </font>
@@ -96,7 +99,7 @@
                         <Font name="Times New Roman" size="18.0" />
                      </font>
                   </Label>
-                  <ListView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="334.0">
+                  <ListView fx:id="lvByMassNumber" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="170.0" prefWidth="335.0">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -104,8 +107,11 @@
                </children>
             </VBox>
          </content>
+         <font>
+            <Font name="Times New Roman" size="18.0" />
+         </font>
     </TitledPane>
-    <TitledPane animated="false" text="Find nuclides by charge number (Z)">
+    <TitledPane text="Find nuclides by charge number (Z)">
          <content>
             <VBox prefHeight="299.0" prefWidth="605.0">
                <children>
@@ -119,7 +125,7 @@
                               <Insets top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="200.0" promptText="For example: 92 or 19">
+                        <TextField fx:id="tfByChargeNumber" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="200.0" promptText="For example: 92 or 19">
                            <font>
                               <Font name="Times New Roman" size="18.0" />
                            </font>
@@ -127,7 +133,7 @@
                               <Insets top="5.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="45.0" prefWidth="80.0" text="Search">
+                        <Button fx:id="btnByChargeNumber" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="45.0" prefWidth="80.0" text="Search">
                            <font>
                               <Font name="Times New Roman" size="18.0" />
                            </font>
@@ -142,7 +148,7 @@
                         <Font name="Times New Roman" size="18.0" />
                      </font>
                   </Label>
-                  <ListView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="334.0">
+                  <ListView fx:id="lvByChargeNumber" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="170.0" prefWidth="335.0">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -150,8 +156,11 @@
                </children>
             </VBox>
          </content>
+         <font>
+            <Font name="Times New Roman" size="18.0" />
+         </font>
     </TitledPane>
-      <TitledPane animated="false" layoutX="10.0" layoutY="60.0" text="Find nuclides by mass number and symbol">
+      <TitledPane layoutX="10.0" layoutY="60.0" text="Find nuclides by mass number and symbol">
          <content>
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
@@ -165,7 +174,7 @@
                               <Insets top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <TextField maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="220.0" promptText="For example: 235U or 40K">
+                        <TextField fx:id="tfById" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="220.0" promptText="For example: 235U or 40K">
                            <font>
                               <Font name="Times New Roman" size="18.0" />
                            </font>
@@ -173,7 +182,7 @@
                               <Insets top="5.0" />
                            </HBox.margin>
                         </TextField>
-                        <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="45.0" prefWidth="80.0" text="Search">
+                        <Button fx:id="btnById" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="45.0" prefWidth="80.0" text="Search">
                            <font>
                               <Font name="Times New Roman" size="18.0" />
                            </font>
@@ -188,7 +197,7 @@
                         <Font name="Times New Roman" size="18.0" />
                      </font>
                   </Label>
-                  <ListView maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="334.0">
+                  <ListView fx:id="lvById" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="170.0" prefWidth="335.0">
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
@@ -196,6 +205,9 @@
                </children>
             </VBox>
          </content>
+         <font>
+            <Font name="Times New Roman" size="18.0" />
+         </font>
       </TitledPane>
   </panes>
 </Accordion>
