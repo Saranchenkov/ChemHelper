@@ -1,5 +1,6 @@
-package by.bsu.chemistry.formula;
+package by.bsu.chemistry.formula.weizsaecker;
 
+import by.bsu.chemistry.formula.FormulaController;
 import by.bsu.chemistry.util.Helper;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.fxml.FXML;
@@ -12,7 +13,7 @@ import net.objecthunter.exp4j.ExpressionBuilder;
  * Created by Ivan on 04.09.2017.
  */
 @FXMLController
-public class WeizsaeckerFormulaController implements FormulaController{
+public class WeizsaeckerFormulaController implements FormulaController {
 
     @FXML
     TextField massNumber;

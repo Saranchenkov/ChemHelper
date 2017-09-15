@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Scope;
  */
 
 @FXMLView
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class InitialFormulaView extends View{
 
     private final static Logger LOGGER = LoggerFactory.getLogger(InitialFormulaView.class);

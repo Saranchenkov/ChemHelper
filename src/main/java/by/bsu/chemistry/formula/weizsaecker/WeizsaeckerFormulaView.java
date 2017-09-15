@@ -1,7 +1,8 @@
-package by.bsu.chemistry.formula;
+package by.bsu.chemistry.formula.weizsaecker;
 
 import by.bsu.chemistry.View;
-import de.felixroske.jfxsupport.FXMLController;
+import by.bsu.chemistry.formula.FormulaController;
+import de.felixroske.jfxsupport.FXMLView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -9,14 +10,14 @@ import org.springframework.context.annotation.Scope;
 /**
  * Created by Ivan on 13.05.2017.
  */
-@FXMLController
+@FXMLView
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class WeizsaeckerFormulaView extends View{
 
-    private final FormulaController controller;
+    private final WeizsaeckerFormulaController controller;
 
     @Autowired
-    public WeizsaeckerFormulaView(FormulaController controller) {
+    public WeizsaeckerFormulaView(WeizsaeckerFormulaController controller) {
         this.controller = controller;
     }
 

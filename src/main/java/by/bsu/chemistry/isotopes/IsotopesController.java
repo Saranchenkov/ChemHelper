@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
  */
 
 @FXMLController
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class IsotopesController implements Controller{
 
     private final Logger LOGGER = LoggerFactory.getLogger(IsotopesController.class);

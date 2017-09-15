@@ -25,14 +25,14 @@ public abstract class View {
         return pane;
     }
 
-    private Parent getPaneFromFXML(final Class<? extends View> clazz, final Controller controller) throws IOException {
+    public Parent getPaneFromFXML(final Class<? extends View> clazz, final Controller controller) throws IOException {
         String path = PropertyReaderHelper.determineFilePathFromPackageName(clazz) + getFXMLName(clazz);
         FXMLLoader loader = new FXMLLoader(clazz.getResource(path));
         loader.setController(controller);
         return loader.load();
     }
 
-    private String getFXMLName(Class<? extends View> clazz){
+    public String getFXMLName(Class<? extends View> clazz){
         char[] name = clazz.getSimpleName().replace("View", ".fxml").toCharArray();
         name[0] = Character.toLowerCase(name[0]);
         return new String(name);

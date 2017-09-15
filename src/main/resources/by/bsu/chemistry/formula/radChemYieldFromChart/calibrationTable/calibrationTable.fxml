@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="vBox" fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="485.0" spacing="5.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label alignment="CENTER" prefHeight="38.0" prefWidth="369.0" text="Radiation chemistry yield from chart" textAlignment="CENTER">
+            <font>
+                <Font name="Times New Roman" size="24.0" />
+            </font>
+            <VBox.margin>
+                <Insets left="50.0" />
+            </VBox.margin>
+        </Label>
+        <Label alignment="CENTER" prefHeight="38.0" prefWidth="369.0" text="Calibration table" textAlignment="CENTER">
+            <font>
+                <Font name="Times New Roman" size="20.0" />
+            </font>
+            <VBox.margin>
+                <Insets left="50.0" />
+            </VBox.margin>
+        </Label>
+        <TableView fx:id="table" editable="true" maxWidth="500.0" prefHeight="274.0" prefWidth="425.0">
+            <columns>
+                <TableColumn fx:id="idColumn" minWidth="0.0" prefWidth="41.0" resizable="false" text="№" />
+                <TableColumn fx:id="conColumn" minWidth="0.0" prefWidth="167.0" resizable="false" text="Concentration, M" />
+                <TableColumn fx:id="densityColumn" minWidth="0.0" prefWidth="151.0" resizable="false" text="Optical density " />
+                <TableColumn fx:id="checkColumn" minWidth="0.0" prefWidth="65.0" resizable="false" text="On/Off" />
+            </columns>
+            <VBox.margin>
+                <Insets left="30.0" />
+            </VBox.margin>
+        </TableView>
+        <HBox prefHeight="35.0" prefWidth="430.0" spacing="5.0">
+            <children>
+                <TextField fx:id="conField" alignment="CENTER" prefHeight="32.0" prefWidth="158.0" promptText="Concentration, M">
+                    <font>
+                        <Font name="Times New Roman" size="18.0" />
+                    </font>
+                </TextField>
+                <TextField fx:id="densityField" prefHeight="32.0" prefWidth="139.0" promptText="Optical density">
+                    <font>
+                        <Font name="Times New Roman" size="18.0" />
+                    </font>
+                </TextField>
+                <Button fx:id="addButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="99.0" text="Add point">
+                    <font>
+                        <Font name="Times New Roman" size="18.0" />
+                    </font>
+                </Button>
+            </children>
+            <VBox.margin>
+                <Insets left="30.0" />
+            </VBox.margin>
+        </HBox>
+        <HBox prefHeight="38.0" prefWidth="200.0" spacing="5.0">
+            <children>
+                <Button fx:id="nextButton" mnemonicParsing="false" text="Next">
+                    <font>
+                        <Font name="Times New Roman" size="18.0" />
+                    </font>
+                </Button>
+            </children>
+            <VBox.margin>
+                <Insets left="30.0" />
+            </VBox.margin>
+        </HBox>
+    </children>
+    <padding>
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+    </padding>
+</VBox>

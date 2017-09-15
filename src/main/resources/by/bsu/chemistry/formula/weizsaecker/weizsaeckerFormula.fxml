@@ -28,7 +28,7 @@
       </Label>
       <ImageView fitHeight="110.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../pictures/WeizsaeckerFormula.png" />
+            <Image url="@../../../../../pictures/WeizsaeckerFormula.png" />
          </image>
          <VBox.margin>
             <Insets bottom="10.0" />
