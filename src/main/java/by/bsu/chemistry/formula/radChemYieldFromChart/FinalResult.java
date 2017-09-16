@@ -1,4 +1,4 @@
-package by.bsu.chemistry.formula.radChemYieldFromChart.finalTable;
+package by.bsu.chemistry.formula.radChemYieldFromChart;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;

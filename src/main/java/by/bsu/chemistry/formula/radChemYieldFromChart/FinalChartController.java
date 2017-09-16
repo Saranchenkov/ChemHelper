@@ -1,9 +1,6 @@
-package by.bsu.chemistry.formula.radChemYieldFromChart.finalChart;
+package by.bsu.chemistry.formula.radChemYieldFromChart;
 
-import by.bsu.chemistry.Controller;
-import by.bsu.chemistry.formula.radChemYieldFromChart.TrendLine;
-import by.bsu.chemistry.formula.radChemYieldFromChart.YieldUnit;
-import by.bsu.chemistry.formula.radChemYieldFromChart.finalTable.FinalResult;
+import by.bsu.chemistry.AbstractController;
 import by.bsu.chemistry.util.Helper;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.fxml.FXML;
@@ -31,34 +28,24 @@ import static by.bsu.chemistry.formula.radChemYieldFromChart.YieldUnit.PER_100EV
  */
 
 @FXMLController
-public class FinalChartController implements Controller{
+public class FinalChartController extends AbstractController {
+
+    private final String EXCEL_PATTERN_PATH = "/" + getClass().getPackage().getName().replaceAll("\\.", "/") + "/radChemYield.xlsx";
+    private final double CONVERSION_COEFFICIENT = 6.022_140e6/1.602_176;
 
     private final List<FinalResult> data = new ArrayList<>();
 
-    private final String EXCEL_PATTERN_PATH = "/" + getClass().getPackage().getName().replaceAll("\\.", "/") + "/radChemYield.xlsx";
-
-    private final double CONVERSION_COEFFICIENT = 6.022_140e6/1.602_176;
-
     private double solutionDensity;
-
     private double doseRate;
-
     private YieldUnit unit;
 
-    @FXML
-    LineChart<Double, Double> chart;
+    @FXML LineChart<Double, Double> chart;
 
-    @FXML
-    Label equation;
+    @FXML Label equation;
+    @FXML Label rSquared;
+    @FXML Label yield;
 
-    @FXML
-    Label rSquared;
-
-    @FXML
-    Label yield;
-
-    @FXML
-    Button saveButton;
+    @FXML Button saveButton;
 
     @Override
     public void setEvents() {
@@ -74,10 +61,10 @@ public class FinalChartController implements Controller{
                 .collect(Collectors.toList()));
         XYChart.Series<Double, Double> trendSeries = trendLine.getTrendlineSeries();
 
-        equation.setText(equation.getText().concat(trendLine.getEquation()));
-        rSquared.setText(rSquared.getText().concat(String.format(" %.5f", trendLine.getRSquared())));
-        yield.setText(yield.getText().concat(String.format(" %.3f %s", calculateYield(trendLine.getSlope(), unit), unit.toString())));
-        chart.getData().addAll(series, trendSeries);
+        equation.setText("Equation of trendline: ".concat(trendLine.getEquation()));
+        rSquared.setText("R squared = ".concat(String.format(" %.5f", trendLine.getRSquared())));
+        yield.setText("G = ".concat(String.format(" %.3e %s", calculateYield(trendLine.getSlope(), unit), unit.toString())));
+        chart.getData().setAll(series, trendSeries);
 
         saveButton.setOnAction(event -> {
             File selectedFile = new FileChooser().showSaveDialog(saveButton.getScene().getWindow());
@@ -85,14 +72,14 @@ public class FinalChartController implements Controller{
         });
     }
 
-    public void setData(List<FinalResult> data){
+    void setData(List<FinalResult> data){
         this.data.clear();
         this.data.addAll(data);
     }
 
     private void saveChartOnDesktop(String filePath, double yield) {
-            try(InputStream inputStream = getClass().getResourceAsStream(EXCEL_PATTERN_PATH);
-                FileOutputStream fos = new FileOutputStream(filePath)) {
+            try(BufferedInputStream inputStream = new BufferedInputStream(getClass().getResourceAsStream(EXCEL_PATTERN_PATH));
+                BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(filePath))) {
 
                 Workbook workBook = new XSSFWorkbook(OPCPackage.open(inputStream));
                 Sheet sheet = workBook.getSheetAt(0);
@@ -108,7 +95,7 @@ public class FinalChartController implements Controller{
 
                 sheet.getRow(2).createCell(4).setCellValue(yield);
 
-                workBook.write(fos);
+                workBook.write(outputStream);
             } catch (FileNotFoundException | InvalidFormatException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -127,8 +114,8 @@ public class FinalChartController implements Controller{
     }
 
     private double calculateYield(double slope, YieldUnit unit){
-        double per100eV = (9.65e8 * slope) / solutionDensity;
-        return unit == PER_100EV ? per100eV : per100eV * CONVERSION_COEFFICIENT;
+        double per100eV = (9.65e6 * slope) / solutionDensity;
+        return unit == PER_100EV ? per100eV : per100eV / CONVERSION_COEFFICIENT;
     }
 
     public void setYieldParameters(double solutionDensity, double doseRate, YieldUnit unit){

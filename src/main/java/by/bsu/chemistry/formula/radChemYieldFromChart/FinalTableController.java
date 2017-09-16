@@ -1,24 +1,17 @@
-package by.bsu.chemistry.formula.radChemYieldFromChart.finalTable;
+package by.bsu.chemistry.formula.radChemYieldFromChart;
 
-import by.bsu.chemistry.Controller;
-import by.bsu.chemistry.formula.radChemYieldFromChart.YieldUnit;
-import by.bsu.chemistry.formula.radChemYieldFromChart.finalChart.FinalChartController;
-import by.bsu.chemistry.formula.radChemYieldFromChart.finalChart.FinalChartView;
-import by.bsu.chemistry.formula.radChemYieldFromChart.TrendLine;
+import by.bsu.chemistry.AbstractController;
 import by.bsu.chemistry.util.Helper;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
 
 import static by.bsu.chemistry.formula.radChemYieldFromChart.YieldUnit.PER_100EV;
 import static by.bsu.chemistry.formula.radChemYieldFromChart.YieldUnit.PER_JOULE;
@@ -27,7 +20,7 @@ import static by.bsu.chemistry.formula.radChemYieldFromChart.YieldUnit.PER_JOULE
  * Created by Ivan on 11.09.2017.
  */
 @FXMLController
-public class FinalTableController implements Controller {
+public class FinalTableController extends AbstractController {
 
     private Integer COUNTER = 1;
 
@@ -43,63 +36,40 @@ public class FinalTableController implements Controller {
     private TrendLine trendLine;
 
     @Autowired
-    FinalChartController chartController;
-
-    ConfigurableApplicationContext context;
+    FinalChartController finalChartController;
 
     private final StringConverter<Double> converter;
 
     @Autowired
-    public FinalTableController(ConfigurableApplicationContext context) {
-        this.context = context;
+    public FinalTableController() {
         this.converter = Helper.getConverter();
     }
 
-    @FXML
-    TableView<FinalResult> table;
+    private TabPane tabPane;
 
-    @FXML
-    TableColumn<FinalResult, Integer> idColumn;
+    @FXML TableView<FinalResult> table;
 
-    @FXML
-    TableColumn<FinalResult, Double> timeColumn;
+    @FXML TableColumn<FinalResult, Integer> idColumn;
+    @FXML TableColumn<FinalResult, Double> timeColumn;
+    @FXML TableColumn<FinalResult, Double> densityColumn;
+    @FXML TableColumn<FinalResult, Double> conColumn;
+    @FXML TableColumn<FinalResult, Boolean> checkColumn;
 
-    @FXML
-    TableColumn<FinalResult, Double> densityColumn;
+    @FXML TextField timeField;
+    @FXML TextField densityField;
 
-    @FXML
-    TableColumn<FinalResult, Double> conColumn;
+    @FXML Button addButton;
+    @FXML Button nextButton;
+    @FXML Button calculateCons;
 
-    @FXML
-    TableColumn<FinalResult, Boolean> checkColumn;
+    @FXML TextField solutionDensityField;
+    @FXML TextField doseRateField;
 
-    @FXML
-    TextField timeField;
-
-    @FXML
-    TextField densityField;
-
-    @FXML
-    Button addButton;
-
-    @FXML
-    Button nextButton;
-
-    @FXML
-    Button calculateCons;
-
-    @FXML
-    TextField solutionDensityField;
-
-    @FXML
-    TextField doseRateField;
-
-    @FXML
-    ChoiceBox<String> yieldUnitChoice;
-
+    @FXML ChoiceBox<String> yieldUnitChoice;
 
     @Override
     public void setEvents() {
+
         setCellValueFactory();
         setCellFactory();
         setOnEditCommit();
@@ -110,12 +80,10 @@ public class FinalTableController implements Controller {
     }
 
     private void showFinalChart(){
-        Stage stage = new Stage();
-        chartController.setData(data.filtered(FinalResult::isSelected));
-        Scene scene = new Scene(context.getBean(FinalChartView.class).getView());
-        scene.getStylesheets().add(getClass().getClassLoader().getResource("lineChart.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+        finalChartController.setData(data.filtered(FinalResult::isSelected));
+        Tab newTab = ((TabPane)finalChartController.getView()).getTabs().get(0);
+        tabPane.getTabs().addAll(newTab);
+        tabPane.getSelectionModel().select(newTab);
     }
 
     private void setCellValueFactory(){
@@ -177,7 +145,7 @@ public class FinalTableController implements Controller {
         nextButton.setOnAction(event -> {
             if (Helper.checkDouble(solutionDensityField)){
                 if (Helper.checkDouble(doseRateField)){
-                    chartController.setYieldParameters(
+                    finalChartController.setYieldParameters(
                             Helper.getDouble(solutionDensityField),
                             Helper.getDouble(doseRateField),
                             YieldUnit.getBykey(yieldUnitChoice.getSelectionModel().getSelectedItem())
@@ -194,5 +162,9 @@ public class FinalTableController implements Controller {
 
     void setTrendLine(TrendLine trendLine) {
         this.trendLine = trendLine;
+    }
+
+    void setTabPane(TabPane tabPane){
+        this.tabPane = tabPane;
     }
 }

@@ -1,27 +1,18 @@
-package by.bsu.chemistry.formula.radChemYieldFromChart.calibrationTable;
+package by.bsu.chemistry.formula.radChemYieldFromChart;
 
-import by.bsu.chemistry.Controller;
-import by.bsu.chemistry.formula.radChemYieldFromChart.calibrationChart.CalibrationChartController;
-import by.bsu.chemistry.formula.radChemYieldFromChart.calibrationChart.CalibrationChartView;
-import by.bsu.chemistry.formula.radChemYieldFromChart.calibrationChart.CalibrationResult;
+import by.bsu.chemistry.AbstractController;
 import by.bsu.chemistry.util.Helper;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Scope;
 
 /**
@@ -29,7 +20,7 @@ import org.springframework.context.annotation.Scope;
  */
 @FXMLController
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class CallibrationTableController implements Controller {
+public class CalibrationTableController extends AbstractController {
 
     private Integer COUNTER = 1;
 
@@ -41,44 +32,28 @@ public class CallibrationTableController implements Controller {
     );
 
     @Autowired
-    CalibrationChartController chartController;
-
-    ConfigurableApplicationContext context;
+    CalibrationChartController calibrationChartController;
 
     private final StringConverter<Double> converter;
 
-    @Autowired
-    public CallibrationTableController(ConfigurableApplicationContext context) {
-        this.context = context;
+    public CalibrationTableController() {
         this.converter = Helper.getConverter();
     }
 
-    @FXML
-    TableView<CalibrationResult> table;
+    @FXML TabPane tabPane;
 
-    @FXML
-    TableColumn<CalibrationResult, Integer> idColumn;
+    @FXML TableView<CalibrationResult> table;
 
-    @FXML
-    TableColumn<CalibrationResult, Double> conColumn;
+    @FXML TableColumn<CalibrationResult, Integer> idColumn;
+    @FXML TableColumn<CalibrationResult, Double> conColumn;
+    @FXML TableColumn<CalibrationResult, Double> densityColumn;
+    @FXML TableColumn<CalibrationResult, Boolean> checkColumn;
 
-    @FXML
-    TableColumn<CalibrationResult, Double> densityColumn;
+    @FXML TextField conField;
+    @FXML TextField densityField;
 
-    @FXML
-    TableColumn<CalibrationResult, Boolean> checkColumn;
-
-    @FXML
-    TextField conField;
-
-    @FXML
-    TextField densityField;
-
-    @FXML
-    Button addButton;
-
-    @FXML
-    Button nextButton;
+    @FXML Button addButton;
+    @FXML Button nextButton;
 
     @Override
     public void setEvents() {
@@ -104,15 +79,16 @@ public class CallibrationTableController implements Controller {
         nextButton.setOnAction(event -> showCalibrationChart());
     }
 
+    // TODO: 16.09.2017 rename method
     private void showCalibrationChart(){
-        Stage stage = new Stage();
-        chartController.setData(data.filtered(CalibrationResult::isSelected));
+        calibrationChartController.setData(data.filtered(CalibrationResult::isSelected));
+        calibrationChartController.setTabPane(tabPane);
 
-        // TODO: 13.09.2017 Подумать насчёт контекста, нужен ли он тут или можно привязать вьюху?
-        Scene scene = new Scene(context.getBean(CalibrationChartView.class).getView());
-        scene.getStylesheets().add(getClass().getClassLoader().getResource("lineChart.css").toExternalForm());
-        stage.setScene(scene);
-        stage.show();
+        Tab newTab = ((TabPane)calibrationChartController.getView()).getTabs().get(0);
+        tabPane.getTabs().addAll(newTab);
+        tabPane.getSelectionModel().select(newTab);
+        // TODO: 16.09.2017 сделать нормальный путь вместо lineChart.css
+        tabPane.getStylesheets().add(getClass().getClassLoader().getResource("lineChart.css").toExternalForm());
     }
 
     private void setCellValueFactories(){

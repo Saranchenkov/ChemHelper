@@ -1,34 +1,40 @@
 package by.bsu.chemistry.formula;
 
-import by.bsu.chemistry.Controller;
-import by.bsu.chemistry.View;
-import by.bsu.chemistry.formula.radChemYieldFromChart.calibrationTable.CalibrationTableView;
-import by.bsu.chemistry.formula.weizsaecker.WeizsaeckerFormulaView;
+import by.bsu.chemistry.AbstractController;
+import by.bsu.chemistry.formula.radChemYieldFromChart.CalibrationTableController;
+import by.bsu.chemistry.formula.weizsaecker.WeizsaeckerFormulaController;
 import de.felixroske.jfxsupport.FXMLController;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Scope;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by Ivan on 13.05.2017.
  */
 
 @FXMLController
-public class InitialFormulaController implements Controller{
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+public class InitialFormulaController extends AbstractController {
 
-    private static Map<String, Class<? extends View>> formulaControllers = new TreeMap<>();
+    private final static Logger LOGGER = LoggerFactory.getLogger(InitialFormulaController.class);
+
+    private static Map<String, Class<? extends AbstractController>> formulaControllers = new HashMap<>();
     static {
-        formulaControllers.put("WeizsaeckerFormula", WeizsaeckerFormulaView.class);
-        formulaControllers.put("G - calculation (chart)", CalibrationTableView.class);
+        formulaControllers.put("WeizsaeckerFormula", WeizsaeckerFormulaController.class);
+        formulaControllers.put("G - calculation (chart)", CalibrationTableController.class);
     }
 
     private final ConfigurableApplicationContext context;
@@ -38,29 +44,19 @@ public class InitialFormulaController implements Controller{
         this.context = context;
     }
 
-    @FXML
-    Accordion accordion;
+    @FXML Accordion accordion;
 
-    @FXML
-    BorderPane pane;
+    @FXML BorderPane pane;
 
-    @FXML
-    ListView<String> lvNuclearChem;
-
-    @FXML
-    ListView<String> lvRadChem;
+    @FXML ListView<String> lvNuclearChem;
+    @FXML ListView<String> lvRadChem;
 
     @Override
     public void setEvents() {
         lvNuclearChem.setItems(FXCollections.singletonObservableList("WeizsaeckerFormula"));
-        lvNuclearChem.getSelectionModel()
-                .selectedItemProperty()
-                .addListener((observable, oldValue, newValue) -> setCenter(newValue));
-
         lvRadChem.setItems(FXCollections.singletonObservableList("G - calculation (chart)"));
-        lvRadChem.getSelectionModel()
-                .selectedItemProperty()
-                .addListener((observable, oldValue, newValue) -> setCenter(newValue));
+
+        addListenersToListViews(new ListView[]{lvNuclearChem, lvRadChem});
 
         accordion.getPanes()
                 .forEach(pane -> pane
@@ -71,7 +67,18 @@ public class InitialFormulaController implements Controller{
     }
 
     private void setCenter(String title) {
-        VBox vBox = (VBox)context.getBean(formulaControllers.get(title)).getView();
-        pane.setCenter(vBox);
+        LOGGER.info("Title of pane: {}", title);
+        Parent parent = context.getBean(formulaControllers.get(title)).getView();
+        pane.setCenter(parent);
+    }
+
+    private void addListenersToListViews(ListView<String>[] views){
+        for (ListView<String> listView : views) {
+            listView.getSelectionModel()
+                    .selectedItemProperty()
+                    .addListener((observable, oldValue, newValue) -> {
+                        if (Objects.nonNull(newValue)) setCenter(newValue);
+                    });
+        }
     }
 }

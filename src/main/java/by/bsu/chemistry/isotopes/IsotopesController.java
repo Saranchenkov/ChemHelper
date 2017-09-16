@@ -1,6 +1,6 @@
 package by.bsu.chemistry.isotopes;
 
-import by.bsu.chemistry.Controller;
+import by.bsu.chemistry.AbstractController;
 import by.bsu.chemistry.util.Helper;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.collections.FXCollections;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 
 @FXMLController
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-public class IsotopesController implements Controller{
+public class IsotopesController extends AbstractController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(IsotopesController.class);
 
@@ -40,41 +40,21 @@ public class IsotopesController implements Controller{
         this.repository = repository;
     }
 
-    @FXML
-    TextField tfBySymbol;
+    @FXML TextField tfBySymbol;
+    @FXML Button btnBySymbol;
+    @FXML ListView<String> lvBySymbol;
 
-    @FXML
-    Button btnBySymbol;
+    @FXML TextField tfByMassNumber;
+    @FXML Button btnByMassNumber;
+    @FXML ListView<String> lvByMassNumber;
 
-    @FXML
-    ListView<String> lvBySymbol;
+    @FXML TextField tfByChargeNumber;
+    @FXML Button btnByChargeNumber;
+    @FXML ListView<String> lvByChargeNumber;
 
-    @FXML
-    TextField tfByMassNumber;
-
-    @FXML
-    Button btnByMassNumber;
-
-    @FXML
-    ListView<String> lvByMassNumber;
-
-    @FXML
-    TextField tfByChargeNumber;
-
-    @FXML
-    Button btnByChargeNumber;
-
-    @FXML
-    ListView<String> lvByChargeNumber;
-
-    @FXML
-    TextField tfById;
-
-    @FXML
-    Button btnById;
-
-    @FXML
-    ListView<String> lvById;
+    @FXML TextField tfById;
+    @FXML Button btnById;
+    @FXML ListView<String> lvById;
 
     /* ----- Setting events to view elements ---- */
 

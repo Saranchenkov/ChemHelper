@@ -1,5 +1,6 @@
 package by.bsu.chemistry.formula.weizsaecker;
 
+import by.bsu.chemistry.AbstractController;
 import by.bsu.chemistry.formula.FormulaController;
 import by.bsu.chemistry.util.Helper;
 import de.felixroske.jfxsupport.FXMLController;
@@ -13,7 +14,7 @@ import net.objecthunter.exp4j.ExpressionBuilder;
  * Created by Ivan on 04.09.2017.
  */
 @FXMLController
-public class WeizsaeckerFormulaController implements FormulaController {
+public class WeizsaeckerFormulaController extends AbstractController {
 
     @FXML
     TextField massNumber;
@@ -27,7 +28,6 @@ public class WeizsaeckerFormulaController implements FormulaController {
     @FXML
     Label result;
 
-    @Override
     @FXML
     public void evaluate() {
         if (Helper.checkDoubleValues(massNumber, chargeNumber)){

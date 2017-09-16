@@ -35,21 +35,21 @@
       </MenuBar>
    </top>
    <left>
-      <Accordion fx:id="accordion" maxWidth="150.0" BorderPane.alignment="CENTER">
+      <Accordion fx:id="accordion" prefHeight="375.0" prefWidth="156.0" BorderPane.alignment="CENTER">
         <panes>
           <TitledPane animated="false" text="Nuclear Chemistry">
                <content>
-                  <ListView fx:id="lvNuclearChem" prefHeight="258.0" prefWidth="148.0" />
+                  <ListView fx:id="lvNuclearChem" />
                </content>
           </TitledPane>
           <TitledPane animated="false" text="Radiation Chemistry">
                <content>
-                  <ListView fx:id="lvRadChem" prefHeight="200.0" prefWidth="200.0" />
+                  <ListView fx:id="lvRadChem" />
                </content>
           </TitledPane>
           <TitledPane animated="false" text="Dosimetry">
                <content>
-                  <ListView fx:id="lvDosimetry" prefHeight="200.0" prefWidth="200.0" />
+                  <ListView fx:id="lvDosimetry" />
                </content>
           </TitledPane>
         </panes>

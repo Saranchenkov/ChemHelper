@@ -1,7 +1,7 @@
 package by.bsu.chemistry;
 
-import by.bsu.chemistry.formula.InitialFormulaView;
-import by.bsu.chemistry.isotopes.IsotopesView;
+import by.bsu.chemistry.formula.InitialFormulaController;
+import by.bsu.chemistry.isotopes.IsotopesController;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -26,12 +26,12 @@ public class InitialController implements Controller{
 
     @FXML
     public void getFormulaStage() throws IOException {
-       showStage(InitialFormulaView.class, 670);
+       showStage(InitialFormulaController.class, 670);
     }
 
     @FXML
     public void getIsotopesStage() throws IOException {
-        showStage(IsotopesView.class, 590);
+        showStage(IsotopesController.class, 590);
     }
 
     @FXML
@@ -54,11 +54,11 @@ public class InitialController implements Controller{
 
     }
 
-    private <T extends View> void showStage(Class<T> viewClass, int minWidth) {
+    private <T extends AbstractController> void showStage(Class<T> controllerClass, int minWidth) {
         Stage stage = new Stage();
         stage.setMinWidth(minWidth);
         stage.setMinHeight(450);
-        stage.setScene(new Scene(context.getBean(viewClass).getView()));
+        stage.setScene(new Scene(context.getBean(controllerClass).getView()));
         stage.show();
     }
 
