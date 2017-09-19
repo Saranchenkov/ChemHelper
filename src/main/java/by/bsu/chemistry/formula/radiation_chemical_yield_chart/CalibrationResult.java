@@ -1,4 +1,4 @@
-package by.bsu.chemistry.formula.radChemYieldFromChart;
+package by.bsu.chemistry.formula.radiation_chemical_yield_chart;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -13,7 +13,7 @@ public class CalibrationResult {
     private final SimpleDoubleProperty opticalDensity;
     private final SimpleBooleanProperty selected;
 
-    public CalibrationResult(int id, double concetration, double opticalDensity) {
+    CalibrationResult(int id, double concetration, double opticalDensity) {
         this.id = new SimpleIntegerProperty(id);
         this.concentration = new SimpleDoubleProperty(concetration);
         this.opticalDensity = new SimpleDoubleProperty(opticalDensity);

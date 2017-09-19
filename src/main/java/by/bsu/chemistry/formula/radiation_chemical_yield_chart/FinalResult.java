@@ -1,4 +1,4 @@
-package by.bsu.chemistry.formula.radChemYieldFromChart;
+package by.bsu.chemistry.formula.radiation_chemical_yield_chart;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;

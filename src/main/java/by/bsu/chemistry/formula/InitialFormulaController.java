@@ -1,7 +1,7 @@
 package by.bsu.chemistry.formula;
 
 import by.bsu.chemistry.AbstractController;
-import by.bsu.chemistry.formula.radChemYieldFromChart.CalibrationTableController;
+import by.bsu.chemistry.formula.radiation_chemical_yield_chart.CalibrationTableController;
 import by.bsu.chemistry.formula.weizsaecker.WeizsaeckerFormulaController;
 import de.felixroske.jfxsupport.FXMLController;
 import javafx.collections.FXCollections;
@@ -10,8 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -27,9 +26,8 @@ import java.util.Objects;
 
 @FXMLController
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Slf4j
 public class InitialFormulaController extends AbstractController {
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(InitialFormulaController.class);
 
     private static Map<String, Class<? extends AbstractController>> formulaControllers = new HashMap<>();
     static {
@@ -67,7 +65,7 @@ public class InitialFormulaController extends AbstractController {
     }
 
     private void setCenter(String title) {
-        LOGGER.info("Title of pane: {}", title);
+        log.info("Title of pane: {}", title);
         Parent parent = context.getBean(formulaControllers.get(title)).getView();
         pane.setCenter(parent);
     }

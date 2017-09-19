@@ -20,14 +20,14 @@
    <tabs>
       <Tab text="Final table">
          <content>
-            <VBox fx:id="vBox" fillWidth="false" spacing="5.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+            <VBox fx:id="vBox" alignment="CENTER" fillWidth="false" spacing="5.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
                <children>
                   <Label alignment="CENTER" text="Radiation chemistry yield from chart" textAlignment="CENTER">
                      <font>
                         <Font name="Times New Roman" size="24.0" />
                      </font>
                      <VBox.margin>
-                        <Insets left="70.0" />
+                        <Insets />
                      </VBox.margin>
                   </Label>
                   <Label alignment="CENTER" text="Final table" textAlignment="CENTER">
@@ -35,7 +35,7 @@
                         <Font name="Times New Roman" size="20.0" />
                      </font>
                      <VBox.margin>
-                        <Insets left="200.0" />
+                        <Insets />
                      </VBox.margin>
                   </Label>
                   <TableView fx:id="table" editable="true" prefHeight="270.0">
@@ -47,7 +47,7 @@
                         <TableColumn fx:id="checkColumn" minWidth="0.0" prefWidth="62.0" resizable="false" text="On/Off" />
                      </columns>
                      <VBox.margin>
-                        <Insets left="30.0" right="30.0" />
+                        <Insets />
                      </VBox.margin>
                   </TableView>
                   <HBox prefHeight="32.0" prefWidth="462.0" spacing="5.0">
@@ -69,10 +69,10 @@
                         </Button>
                      </children>
                      <VBox.margin>
-                        <Insets left="30.0" />
+                        <Insets />
                      </VBox.margin>
                   </HBox>
-                  <HBox prefHeight="32.0" prefWidth="309.0" spacing="5.0">
+                  <HBox prefHeight="37.0" prefWidth="470.0" spacing="5.0">
                      <children>
                         <Button fx:id="calculateCons" mnemonicParsing="false" text="Calculate concentrations">
                            <font>
@@ -89,12 +89,12 @@
                         </Button>
                      </children>
                      <VBox.margin>
-                        <Insets left="30.0" />
+                        <Insets />
                      </VBox.margin>
                   </HBox>
                   <Label text="Enter parameters for calculating the yield:">
                      <VBox.margin>
-                        <Insets left="70.0" />
+                        <Insets />
                      </VBox.margin>
                      <font>
                         <Font name="Times New Roman" size="20.0" />
@@ -111,7 +111,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <VBox.margin>
-                        <Insets bottom="10.0" left="30.0" />
+                        <Insets bottom="10.0" />
                      </VBox.margin>
                      <children>
                         <Label prefHeight="20.0" prefWidth="196.0" text="Solution density  p, g/ml :">

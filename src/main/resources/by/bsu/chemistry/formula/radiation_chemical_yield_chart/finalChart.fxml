@@ -64,7 +64,7 @@
                               <Font name="Times New Roman" size="18.0" />
                            </font>
                            <HBox.margin>
-                              <Insets left="150.0" />
+                              <Insets left="70.0" />
                            </HBox.margin>
                         </Button>
                      </children>

@@ -26,12 +26,12 @@ public class InitialController implements Controller{
 
     @FXML
     public void getFormulaStage() throws IOException {
-       showStage(InitialFormulaController.class, 670);
+       showStage(InitialFormulaController.class, 750, 650);
     }
 
     @FXML
     public void getIsotopesStage() throws IOException {
-        showStage(IsotopesController.class, 590);
+        showStage(IsotopesController.class, 590, 450);
     }
 
     @FXML
@@ -54,10 +54,10 @@ public class InitialController implements Controller{
 
     }
 
-    private <T extends AbstractController> void showStage(Class<T> controllerClass, int minWidth) {
+    private <T extends AbstractController> void showStage(Class<T> controllerClass, int minWidth, int minHeight) {
         Stage stage = new Stage();
         stage.setMinWidth(minWidth);
-        stage.setMinHeight(450);
+        stage.setMinHeight(minHeight);
         stage.setScene(new Scene(context.getBean(controllerClass).getView()));
         stage.show();
     }

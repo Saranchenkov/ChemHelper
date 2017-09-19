@@ -1,8 +1,7 @@
-package by.bsu.chemistry.formula.radChemYieldFromChart;
+package by.bsu.chemistry.formula.radiation_chemical_yield_chart;
 
 import by.bsu.chemistry.AbstractController;
 import by.bsu.chemistry.util.Helper;
-import de.felixroske.jfxsupport.FXMLController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,15 +10,13 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.StringConverter;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import static by.bsu.chemistry.formula.radChemYieldFromChart.YieldUnit.PER_100EV;
-import static by.bsu.chemistry.formula.radChemYieldFromChart.YieldUnit.PER_JOULE;
+import static by.bsu.chemistry.formula.radiation_chemical_yield_chart.YieldUnit.PER_100EV;
+import static by.bsu.chemistry.formula.radiation_chemical_yield_chart.YieldUnit.PER_JOULE;
 
 /**
  * Created by Ivan on 11.09.2017.
  */
-@FXMLController
 public class FinalTableController extends AbstractController {
 
     private Integer COUNTER = 1;
@@ -33,19 +30,17 @@ public class FinalTableController extends AbstractController {
             new FinalResult(COUNTER++,31, 0.025)
     );
 
-    private TrendLine trendLine;
-
-    @Autowired
-    FinalChartController finalChartController;
+    private FinalChartController finalChartController;
 
     private final StringConverter<Double> converter;
+    private final TrendLine trendLine;
+    private final TabPane tabPane;
 
-    @Autowired
-    public FinalTableController() {
+    FinalTableController(TrendLine trendLine, TabPane tabPane) {
         this.converter = Helper.getConverter();
+        this.trendLine = trendLine;
+        this.tabPane = tabPane;
     }
-
-    private TabPane tabPane;
 
     @FXML TableView<FinalResult> table;
 
@@ -70,8 +65,10 @@ public class FinalTableController extends AbstractController {
     @Override
     public void setEvents() {
 
-        setCellValueFactory();
-        setCellFactory();
+        table.getSelectionModel().setCellSelectionEnabled(true);
+
+        setCellValueFactories();
+        setCellFactories();
         setOnEditCommit();
         setOnAction();
         yieldUnitChoice.setItems(FXCollections.observableArrayList(PER_100EV.toString(), PER_JOULE.toString()));
@@ -80,13 +77,22 @@ public class FinalTableController extends AbstractController {
     }
 
     private void showFinalChart(){
-        finalChartController.setData(data.filtered(FinalResult::isSelected));
-        Tab newTab = ((TabPane)finalChartController.getView()).getTabs().get(0);
-        tabPane.getTabs().addAll(newTab);
-        tabPane.getSelectionModel().select(newTab);
+        if (Helper.checkDouble(solutionDensityField)){
+            if (Helper.checkDouble(doseRateField)){
+                finalChartController = new FinalChartController(
+                                            data,
+                                            Helper.getDouble(solutionDensityField),
+                                            Helper.getDouble(doseRateField),
+                                            YieldUnit.getBykey(yieldUnitChoice.getSelectionModel().getSelectedItem())
+                );
+                Tab newTab = ((TabPane)finalChartController.getView()).getTabs().get(0);
+                tabPane.getTabs().addAll(newTab);
+                tabPane.getSelectionModel().select(newTab);
+            } else {doseRateField.setText("invalid input!");}
+        } else {solutionDensityField.setText("invalid input!");}
     }
 
-    private void setCellValueFactory(){
+    private void setCellValueFactories(){
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
         densityColumn.setCellValueFactory(new PropertyValueFactory<>("opticalDensity"));
@@ -94,21 +100,21 @@ public class FinalTableController extends AbstractController {
         checkColumn.setCellValueFactory( new PropertyValueFactory<>( "selected" ));
     }
 
-    private void setCellFactory(){
+    private void setCellFactories(){
         timeColumn.setCellFactory(TextFieldTableCell.forTableColumn(converter));
         densityColumn.setCellFactory(TextFieldTableCell.forTableColumn(converter));
-        conColumn.setCellFactory(column -> new TableCell<FinalResult, Double>(){
-            @Override
-            protected void updateItem(Double item, boolean empty) {
-                super.updateItem(item, empty);
-                if (item == null || empty){
-                    setText(null);
-                } else if(item == 0d) {
-                    setText(item.toString());
-                } else {
-                    setText(String.format("%.5E", item));
+        conColumn.setCellFactory(column -> new TextFieldTableCell<FinalResult, Double>(converter){
+                @Override
+                public void updateItem(Double item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty){
+                        setText(null);
+                    } else if(item == 0d) {
+                        setText(item.toString());
+                    } else {
+                        setText(String.format("%.5E", item));
+                    }
                 }
-            }
         });
         checkColumn.setCellFactory( tc -> new CheckBoxTableCell<>());
     }
@@ -142,29 +148,10 @@ public class FinalTableController extends AbstractController {
             } else timeField.setText("invalid input");
         });
 
-        nextButton.setOnAction(event -> {
-            if (Helper.checkDouble(solutionDensityField)){
-                if (Helper.checkDouble(doseRateField)){
-                    finalChartController.setYieldParameters(
-                            Helper.getDouble(solutionDensityField),
-                            Helper.getDouble(doseRateField),
-                            YieldUnit.getBykey(yieldUnitChoice.getSelectionModel().getSelectedItem())
-                    );
-                    showFinalChart();
-                } else {doseRateField.setText("invalid input!");}
-            } else {solutionDensityField.setText("invalid input!");}
-        });
+        nextButton.setOnAction(event -> showFinalChart());
 
         calculateCons.setOnAction(event -> {
             data.forEach(result -> result.setConcentration(trendLine.getXFromEquation(result.getOpticalDensity())));
         });
-    }
-
-    void setTrendLine(TrendLine trendLine) {
-        this.trendLine = trendLine;
-    }
-
-    void setTabPane(TabPane tabPane){
-        this.tabPane = tabPane;
     }
 }

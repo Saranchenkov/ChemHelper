@@ -1,4 +1,4 @@
-package by.bsu.chemistry.formula.radChemYieldFromChart;
+package by.bsu.chemistry.formula.radiation_chemical_yield_chart;
 
 import java.util.HashMap;
 import java.util.Map;

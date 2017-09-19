@@ -1,4 +1,4 @@
-package by.bsu.chemistry.formula.radChemYield;
+package by.bsu.chemistry.formula.radiation_chemical_yield_formula;
 
 import by.bsu.chemistry.formula.FormulaController;
 import de.felixroske.jfxsupport.FXMLController;

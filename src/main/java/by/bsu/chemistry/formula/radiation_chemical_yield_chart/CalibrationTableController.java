@@ -1,4 +1,4 @@
-package by.bsu.chemistry.formula.radChemYieldFromChart;
+package by.bsu.chemistry.formula.radiation_chemical_yield_chart;
 
 import by.bsu.chemistry.AbstractController;
 import by.bsu.chemistry.util.Helper;
@@ -11,7 +11,7 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.StringConverter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 
@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Scope;
  */
 @FXMLController
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Slf4j
 public class CalibrationTableController extends AbstractController {
 
     private Integer COUNTER = 1;
@@ -31,13 +32,12 @@ public class CalibrationTableController extends AbstractController {
             new CalibrationResult(COUNTER++,4e-4, 0.122)
     );
 
-    @Autowired
-    CalibrationChartController calibrationChartController;
-
+    private CalibrationChartController calibrationChartController;
     private final StringConverter<Double> converter;
 
     public CalibrationTableController() {
         this.converter = Helper.getConverter();
+
     }
 
     @FXML TabPane tabPane;
@@ -57,6 +57,7 @@ public class CalibrationTableController extends AbstractController {
 
     @Override
     public void setEvents() {
+        table.getSelectionModel().setCellSelectionEnabled(true);
 
         setCellValueFactories();
         setCellFactories();
@@ -81,9 +82,7 @@ public class CalibrationTableController extends AbstractController {
 
     // TODO: 16.09.2017 rename method
     private void showCalibrationChart(){
-        calibrationChartController.setData(data.filtered(CalibrationResult::isSelected));
-        calibrationChartController.setTabPane(tabPane);
-
+        calibrationChartController = new CalibrationChartController(data, tabPane);
         Tab newTab = ((TabPane)calibrationChartController.getView()).getTabs().get(0);
         tabPane.getTabs().addAll(newTab);
         tabPane.getSelectionModel().select(newTab);
@@ -107,7 +106,8 @@ public class CalibrationTableController extends AbstractController {
     private void setOnEditCommit(){
         conColumn.setOnEditCommit(
                 (TableColumn.CellEditEvent<CalibrationResult, Double> t) -> {
-                    (t.getTableView().getItems()
+                    (t.getTableView()
+                            .getItems()
                             .get(t.getTablePosition().getRow()))
                             .setConcentration(t.getNewValue());
                 });

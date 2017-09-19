@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+import static org.springframework.util.StringUtils.replace;
+import static org.springframework.util.StringUtils.uncapitalize;
+
 /**
  * Created by Ivan on 03.09.2017.
  */
@@ -37,8 +40,6 @@ public abstract class AbstractController implements Controller{
     }
 
     private String getFXMLName(){
-        char[] name = this.getClass().getSimpleName().replace("Controller", ".fxml").toCharArray();
-        name[0] = Character.toLowerCase(name[0]);
-        return new String(name);
+        return uncapitalize(replace(this.getClass().getSimpleName(), "Controller", ".fxml"));
     }
 }

@@ -10,9 +10,9 @@
 #    properties:
 #            hibernate:
 #              format_sql: true
-logging:
-  level:
-    org.hibernate.SQL: trace
+#logging:
+#  level:
+#    org.hibernate.SQL: trace
 spring:
   jpa:
     hibernate:
@@ -20,6 +20,13 @@ spring:
     properties:
       hibernate:
         format_sql: true
+    show-sql: true
   h2:
     console:
       enabled: true
+
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      read-only: true
+#    url: jdbc:h2:zip:~/data.zip!/nuclides
